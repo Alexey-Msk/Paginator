@@ -1,3 +1,8 @@
+.pageSelector {
+	display: flex;
+	gap: 15px;
+}
+
 .prevPage, .nextPage, .pageNumbers > div {
 	display: inline-block;
 	cursor: pointer;

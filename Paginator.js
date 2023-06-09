@@ -6,21 +6,25 @@ class Paginator {
     #currentPage = 1;
     #selector = "";
     #callback = null;
+    #inputField = true;
 
     /**
      * @param {string} selector CSS-селектор используемых контейнеров (куда будет помещаться код переключателей).
      * @param {number} pagesCount Количество страниц.
      * @param {number} currentPage Текущая страница.
      * @param {Function} callback Функция, вызываемая при смене страницы.
+     * @param {object} options Дополнительные параметры:
+     * * boolean `inputField` — Поле ввода номера страницы.
      */
-    constructor(selector, pagesCount, currentPage, callback) {
+    constructor(selector, pagesCount, currentPage, callback = null, { inputField = true } = {}) {
         this.#pagesCount = pagesCount;
         this.#currentPage = currentPage;
         this.#selector = selector;
         this.#callback = callback;
+        this.#inputField = Boolean(inputField);
         this.#render();
 
-        document.querySelectorAll(selector).forEach(element => element.addEventListener("click", event => {
+        document.querySelectorAll(selector + ' > .pageButtons').forEach(element => element.addEventListener("click", event => {
             if (!event.target.classList.contains("page")) return;
             switch (event.target.className) {
                 case "page current":
@@ -36,6 +40,10 @@ class Paginator {
                     break;
             }
         }));
+
+        if (this.#inputField)
+            document.querySelectorAll(selector + ' > .pageNumberField')
+                    .forEach(element => element.addEventListener("change", event => this.currentPage = parseInt(element.value)));
     }
 
     get pagesCount() {
@@ -64,15 +72,22 @@ class Paginator {
         if (this.#currentPage == value) return;
         this.#currentPage = value;
         this.#updatePageButtons();
+        if (this.#inputField)
+            document.querySelectorAll(this.#selector + ' > .pageNumberField').forEach(element => element.value = value);
         if (this.#callback)
             this.#callback(this.#currentPage);
     }
 
     /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
     #render() {
-        const html = '<div class="page prevPage" title="Предыдущая страница">&lt;</div>' +
-                     ' <span class="pageNumbers">' + this.#generatePageButtons() + '</span> ' +
-                     '<div class="page nextPage" title="Следующая страница">&gt;</div>';
+        let html = "";
+        if (this.#inputField)
+            html += `<input class="pageNumberField" type="number" min="1" max="${this.#pagesCount}" value="${this.#currentPage}" title="Страница">`;
+        html += '<span class="pageButtons">' +
+                    '<div class="page prevPage" title="Предыдущая страница">&lt;</div> ' +
+                        '<span class="pageNumbers">' + this.#generatePageButtons() + '</span> ' +
+                    '<div class="page nextPage" title="Следующая страница">&gt;</div>'+
+                '</span>';
         document.querySelectorAll(this.#selector).forEach(element => element.innerHTML = html);
     }
 
