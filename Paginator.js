@@ -30,14 +30,16 @@ class Paginator {
                 case "page current":
                     return;
                 case "page prevPage":
-                    this.currentPage--;
+                    if (this.currentPage > 1)
+                        this.currentPage--;
                     return;
                 case "page nextPage":
-                    this.currentPage++;
+                    if (this.currentPage < this.pagesCount)
+                        this.currentPage++;
                     return;
                 default:
                     this.currentPage = parseInt(event.target.textContent);
-                    break;
+                    return;
             }
         }));
 
