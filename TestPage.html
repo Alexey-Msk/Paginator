@@ -1,0 +1,71 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="Paginator.js"></script>
+    <script src="TestPage.js"></script>
+    <link rel="stylesheet" href="Paginator.css">
+    <style>
+        #container {
+            width: calc(100vw - 30px);
+            height: calc(100vh - 30px);
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 11pt;
+        }
+        #container > div {
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .pageSelector {
+            background-color: #ddd;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="area1">
+            <div class="pageSelector top"></div>
+            <article>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed risus lacus. Aliquam ultrices sit amet odio eu tristique. Quisque molestie porttitor lobortis. Nullam tincidunt ac orci quis feugiat. Ut urna dolor, mattis rhoncus diam vitae, congue vestibulum ipsum. Fusce sed rhoncus est. Aliquam nec interdum diam. Donec porta molestie euismod. Sed rhoncus, orci at rutrum dictum, tellus nulla eleifend enim, vitae fermentum ligula dolor nec ante. Nulla tempor turpis et sapien dignissim, nec tempus ante suscipit. Nulla sit amet magna maximus, tempor est vitae, euismod metus. Cras et lorem nec erat pharetra accumsan. Donec aliquam ultrices ultricies. Duis a lacinia eros, ac vestibulum neque. Donec ac mi pretium, viverra lorem sit amet, ornare arcu.</p>
+                <p>Vivamus quis efficitur turpis, et tincidunt enim. Nunc pulvinar dapibus risus, id dignissim lorem egestas in. Mauris ut risus venenatis, dignissim neque a, luctus felis. Phasellus id varius libero, vitae condimentum massa. Mauris dapibus tincidunt egestas. Pellentesque turpis lacus, ornare sed posuere sit amet, aliquet eu orci. Mauris lectus velit, finibus eget euismod id, semper quis mauris.</p>
+                <p>Suspendisse dignissim justo eu massa mattis, sed aliquam erat dignissim. Mauris sit amet feugiat elit. Fusce tristique, nisl posuere aliquam imperdiet, sapien metus ullamcorper dolor, ac iaculis lectus nulla et nibh. Donec volutpat cursus magna sit amet facilisis. Pellentesque ut suscipit ex, non vulputate quam. Sed at vestibulum leo, at interdum tortor. Nam maximus feugiat tortor, eget volutpat felis aliquam et.</p>
+            </article>
+            <div class="pageSelector bottom"></div>
+        </div>
+        <div id="area2">
+            <div class="pageSelector top"></div>
+            <article>
+                <p>Curabitur quis varius nibh. Nulla sit amet vestibulum massa, in dignissim lacus. Donec posuere magna in metus vestibulum euismod. Vivamus mattis, velit vel cursus imperdiet, elit nibh tincidunt sem, a feugiat orci urna a est. Nullam pellentesque libero in aliquet tempor. Duis et tristique elit, ac pharetra dui. Praesent consectetur rutrum erat, id aliquam metus. Integer finibus facilisis orci ac finibus. Phasellus elementum lacus purus, vel congue felis varius a. Aliquam nec ornare lorem, vitae blandit ante. Aliquam vel arcu eros.</p>
+                <p>Proin pulvinar, ipsum ut sagittis lacinia, velit erat bibendum ipsum, et varius nulla nunc sit amet metus. Pellentesque ut sapien nec nisi laoreet ullamcorper ac a nulla. Nulla hendrerit tempus enim sit amet tincidunt. Donec ac rutrum tellus. Quisque fermentum consequat justo, quis feugiat elit aliquam vitae. Ut laoreet eu ante in ultricies. Donec rhoncus dui at mauris aliquam mattis. In vitae congue ante. Duis tincidunt lectus id massa sollicitudin, et vehicula nisi vulputate. Integer ac ultrices justo. Suspendisse potenti. Maecenas nisl orci, laoreet id tortor et, suscipit porta turpis. Nunc a maximus dolor. Vivamus luctus dolor sed nisl ultricies gravida. Integer nec varius ex. Integer efficitur placerat elit dapibus vulputate.</p>
+                <p>Donec sodales lobortis nisi. Vivamus non scelerisque diam. Ut nibh urna, faucibus et sapien eu, mollis gravida nibh. Suspendisse eget leo ut ante elementum ornare. Morbi sed nisi eget metus volutpat tempor nec condimentum nulla. Donec non bibendum elit. Duis sed volutpat felis.</p>
+            </article>
+            <div class="pageSelector bottom"></div>
+        </div>
+        <div id="area3">
+            <div class="pageSelector top"></div>
+            <article>
+                <p>Sed sit amet dignissim justo. Phasellus id laoreet ante, sit amet aliquet lectus. In consequat luctus quam a auctor. Sed tempus feugiat dignissim. Duis sed commodo neque, sed vehicula libero. Vestibulum pellentesque pellentesque felis, non dapibus risus luctus id. Donec quis vulputate urna.</p>
+                <p>Maecenas vitae ex eget mi imperdiet imperdiet. Aliquam rhoncus maximus diam at sollicitudin. Sed lectus ex, lacinia eget gravida rhoncus, posuere eu turpis. Sed eget fermentum arcu. Fusce metus sapien, fermentum non pharetra bibendum, pellentesque ultricies arcu. Donec dignissim dolor nec libero mattis convallis. Vivamus ex justo, ultricies vel mi quis, porttitor elementum lectus. Sed aliquet ultrices lacinia. Mauris lobortis bibendum dui, sit amet feugiat ipsum bibendum at. Ut eget elit arcu. Aenean ipsum erat, tristique quis dolor eget, commodo pellentesque ipsum.</p>
+            </article>
+            <div class="pageSelector bottom"></div>
+        </div>
+        <div id="area4">
+            <div class="pageSelector top"></div>
+            <article>
+                <p>Mauris tempor odio massa, a maximus lectus efficitur ac. Praesent tempor nisl tortor, quis pretium tortor venenatis id. Cras et ligula aliquet, porttitor nibh eu, vestibulum magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque convallis pharetra ante, et sodales eros elementum id. Mauris eget gravida felis. Maecenas euismod sed justo eget bibendum. Sed eros est, euismod ut lobortis cursus, volutpat sed nisl. Nunc a est velit.</p>
+                <p>In eget eleifend augue, eget placerat est. Nulla imperdiet, turpis in sodales vestibulum, lectus dolor convallis enim, at ultrices mauris lorem ac elit. Fusce lobortis lacus at sem facilisis viverra. Quisque iaculis, elit sit amet finibus condimentum, leo quam lobortis justo, quis malesuada nisl turpis eu neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent viverra suscipit dui id pharetra. Curabitur quis purus imperdiet, iaculis felis ac, condimentum lacus. Praesent vulputate venenatis arcu eu consequat.</p>
+                <p>Morbi nec dolor mauris. Aenean vestibulum vel purus in venenatis. Vestibulum ultrices eu massa id luctus. Nam nec porttitor est. Aenean tortor diam, placerat sed nisl in, iaculis accumsan turpis. Nunc ut ultrices mi, sed gravida ligula. Donec at ante tortor. Nulla tincidunt hendrerit mi a aliquam. Aliquam mi risus, blandit sed gravida et, pellentesque sed lectus. Aliquam ex purus, vestibulum ut fermentum nec, eleifend nec orci.</p>
+            </article>
+            <div class="pageSelector bottom"></div>
+        </div>
+    </div>
+</body>
+</html>

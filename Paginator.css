@@ -1,0 +1,23 @@
+.prevPage, .nextPage, .pageNumbers > div {
+	display: inline-block;
+	cursor: pointer;
+	background: #bbb;
+	box-sizing: border-box;
+	width: 30px;
+	height: 22px;
+	border-radius: 2px;
+	text-align: center;
+	/*padding: 3px 3px;*/
+	padding-top: 3px;
+	user-select: none;
+	transition: color 0.25s;
+}
+
+.prevPage:hover, .nextPage:hover, .pageNumbers > div:hover {
+	color: #C44C49;
+	transition: color 0.25s;
+}
+
+.page.current {
+	font-weight: bold;
+}
