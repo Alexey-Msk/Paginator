@@ -60,7 +60,8 @@ class Paginator {
         if (this.#currentPage == value) return;
         this.#currentPage = value;
         this.#updatePageButtons();
-        this.#callback(this.#currentPage);
+        if (this.#callback)
+            this.#callback(this.#currentPage);
     }
 
     /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
