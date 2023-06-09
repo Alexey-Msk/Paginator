@@ -74,7 +74,7 @@ class Paginator {
     /** Обновляет код кнопок с номерами страниц. */
     #updatePageButtons() {
         const html = this.#generatePageButtons();
-        document.querySelectorAll('.pageNumbers').forEach(element => element.innerHTML = html);
+        document.querySelectorAll(this.#selector + ' .pageNumbers').forEach(element => element.innerHTML = html);
     }
 
     /** Генерирует кнопки с номерами страниц. */
