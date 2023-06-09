@@ -43,8 +43,10 @@ class Paginator {
     }
 
     set pagesCount(value) {
-        if (value < 1 || value > this.#pagesCount)
-            throw new RangeError("Значение pagesCount не должно быть отрицельным числом.");
+        if (isNaN(value))
+            throw new TypeError("Значение pagesCount должно быть числом.");
+        if (value < 1)
+            throw new RangeError("Значение pagesCount должно быть положительным.");
         if (this.#pagesCount == value) return;
         this.#pagesCount = value;
         this.#updatePageButtons();
@@ -55,6 +57,8 @@ class Paginator {
     }
 
     set currentPage(value) {
+        if (isNaN(value))
+            throw new TypeError("Значение currentPage должно быть числом.");
         if (value < 1 || value > this.#pagesCount)
             throw new RangeError("Значение currentPage должно находится в интервале от 1 до pagesCount.");
         if (this.#currentPage == value) return;
