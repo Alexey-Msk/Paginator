@@ -80,6 +80,16 @@ class Paginator {
             this.#callback(this.#currentPage);
     }
 
+    get onchange() {
+        return this.#callback;
+    }
+    
+    set onchange(value) {
+        if (value != null && typeof(value) != "function")
+            throw new TypeError("Обработчиком изменения страницы может быть только функция.");
+        this.#callback = value;
+    }
+
     /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
     #render() {
         let html = "";
