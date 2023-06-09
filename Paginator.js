@@ -48,11 +48,11 @@ class Paginator {
                     .forEach(element => element.addEventListener("change", event => this.currentPage = parseInt(element.value)));
     }
 
-    
+    /** Количество страниц. */
     get pagesCount() {
         return this.#pagesCount;
     }
-
+    
     set pagesCount(value) {
         if (isNaN(value))
             throw new TypeError("Значение pagesCount должно быть числом.");
@@ -63,10 +63,11 @@ class Paginator {
         this.#updatePageButtons();
     }
 
+    /** Текущая страница. */
     get currentPage() {
         return this.#currentPage;
     }
-
+    
     set currentPage(value) {
         if (isNaN(value))
             throw new TypeError("Значение currentPage должно быть числом.");
@@ -85,6 +86,10 @@ class Paginator {
         return this.#callback;
     }
     
+    /**
+     * Обработчик изменения номера страницы.
+     * @param {Function} value
+     * */
     set onchange(value) {
         if (value != null && typeof(value) != "function")
             throw new TypeError("Обработчиком изменения страницы может быть только функция.");
