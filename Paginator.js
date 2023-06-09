@@ -48,6 +48,7 @@ class Paginator {
                     .forEach(element => element.addEventListener("change", event => this.currentPage = parseInt(element.value)));
     }
 
+    
     get pagesCount() {
         return this.#pagesCount;
     }
@@ -89,6 +90,7 @@ class Paginator {
             throw new TypeError("Обработчиком изменения страницы может быть только функция.");
         this.#callback = value;
     }
+
 
     /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
     #render() {
