@@ -2,29 +2,97 @@
  * Переключатель страниц.
  */
 class Paginator {
+    #selector = "";
     #pagesCount = 1;
     #currentPage = 1;
-    #selector = "";
-    #callback = null;
     #inputField = true;
+    #callback = null;
+    #rendered = false;
 
     /**
      * @param {string} selector CSS-селектор используемых контейнеров (куда будет помещаться код переключателей).
-     * @param {number} pagesCount Количество страниц.
-     * @param {number} currentPage Текущая страница.
-     * @param {Function} callback Функция, вызываемая при смене страницы.
      * @param {object} options Дополнительные параметры:
+     * * number `pagesCount` — Количество страниц.
+     * * number `currentPage` — Текущая страница.
      * * boolean `inputField` — Поле ввода номера страницы.
+     * * Function `callback` — Функция, вызываемая при смене страницы.
      */
-    constructor(selector, pagesCount, currentPage, callback = null, { inputField = true } = {}) {
-        this.#pagesCount = pagesCount;
-        this.#currentPage = currentPage;
+    constructor(selector, { pagesCount = 1, currentPage = 1, inputField = true, callback = null } = {}) {
         this.#selector = selector;
+        this.pagesCount = pagesCount;
+        this.currentPage = currentPage;
         this.#callback = callback;
         this.#inputField = Boolean(inputField);
-        this.#render();
+        this.render();
+    }
 
-        document.querySelectorAll(selector + ' > .pageButtons').forEach(element => element.addEventListener("click", event => {
+    /** Количество страниц. */
+    get pagesCount() {
+        return this.#pagesCount;
+    }
+    
+    set pagesCount(value) {
+        if (isNaN(value))
+            throw new TypeError("Значение pagesCount должно быть числом.");
+        if (value < 1)
+            throw new RangeError("Значение pagesCount должно быть положительным.");
+        if (this.#pagesCount == value) return;
+        this.#pagesCount = value;
+        if (this.#rendered)
+            this.#updatePageButtons();
+    }
+
+    /** Текущая страница. */
+    get currentPage() {
+        return this.#currentPage;
+    }
+    
+    set currentPage(value) {
+        if (isNaN(value))
+            throw new TypeError("Значение currentPage должно быть числом.");
+        if (value < 1 || value > this.#pagesCount)
+            throw new RangeError("Значение currentPage должно находится в интервале от 1 до pagesCount.");
+        if (this.#currentPage == value) return;
+        this.#currentPage = value;
+        if (this.#rendered) {
+            this.#updatePageButtons();
+            if (this.#inputField)
+                document.querySelectorAll(this.#selector + ' > .pageNumberField').forEach(element => element.value = value);
+            if (this.#callback)
+                this.#callback(this.#currentPage);
+        }
+    }
+
+    get onchange() {
+        return this.#callback;
+    }
+    
+    /**
+     * Обработчик изменения номера страницы.
+     * @param {Function} value
+     * */
+    set onchange(value) {
+        if (value != null && typeof(value) != "function")
+            throw new TypeError("Обработчиком изменения страницы может быть только функция.");
+        this.#callback = value;
+    }
+
+
+    /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
+    render() {
+        let html = "";
+        if (this.#inputField)
+            html += `<input class="pageNumberField" type="number" min="1" max="${this.#pagesCount}" value="${this.#currentPage}" title="Страница">`;
+        html += '<span class="pageButtons">' +
+                    '<div class="page prevPage" title="Предыдущая страница">&lt;</div> ' +
+                        '<span class="pageNumbers">' + this.#generatePageButtons() + '</span> ' +
+                    '<div class="page nextPage" title="Следующая страница">&gt;</div>'+
+                '</span>';
+        document.querySelectorAll(this.#selector).forEach(element => element.innerHTML = html);
+
+        // Обработчики событий
+        
+        document.querySelectorAll(this.#selector + ' > .pageButtons').forEach(element => element.addEventListener("click", event => {
             if (!event.target.classList.contains("page")) return;
             switch (event.target.className) {
                 case "page current":
@@ -44,71 +112,27 @@ class Paginator {
         }));
 
         if (this.#inputField)
-            document.querySelectorAll(selector + ' > .pageNumberField')
+            document.querySelectorAll(this.#selector + ' > .pageNumberField')
                     .forEach(element => element.addEventListener("change", event => this.currentPage = parseInt(element.value)));
+
+        this.#rendered = true;
     }
 
-    /** Количество страниц. */
-    get pagesCount() {
-        return this.#pagesCount;
-    }
-    
-    set pagesCount(value) {
-        if (isNaN(value))
-            throw new TypeError("Значение pagesCount должно быть числом.");
-        if (value < 1)
-            throw new RangeError("Значение pagesCount должно быть положительным.");
-        if (this.#pagesCount == value) return;
-        this.#pagesCount = value;
-        this.#updatePageButtons();
-    }
-
-    /** Текущая страница. */
-    get currentPage() {
-        return this.#currentPage;
-    }
-    
-    set currentPage(value) {
-        if (isNaN(value))
-            throw new TypeError("Значение currentPage должно быть числом.");
-        if (value < 1 || value > this.#pagesCount)
-            throw new RangeError("Значение currentPage должно находится в интервале от 1 до pagesCount.");
-        if (this.#currentPage == value) return;
-        this.#currentPage = value;
-        this.#updatePageButtons();
-        if (this.#inputField)
-            document.querySelectorAll(this.#selector + ' > .pageNumberField').forEach(element => element.value = value);
-        if (this.#callback)
-            this.#callback(this.#currentPage);
-    }
-
-    get onchange() {
-        return this.#callback;
-    }
-    
     /**
-     * Обработчик изменения номера страницы.
-     * @param {Function} value
-     * */
-    set onchange(value) {
-        if (value != null && typeof(value) != "function")
-            throw new TypeError("Обработчиком изменения страницы может быть только функция.");
-        this.#callback = value;
+     * Создает и активирует новый объект Paginator.
+     * @param {string} selector CSS-селектор используемых контейнеров (куда будет помещаться код переключателей).
+     * @param {object} options Дополнительные параметры:
+     * * number `pagesCount` — Количество страниц.
+     * * number `currentPage` — Текущая страница.
+     * * Function `callback` — Функция, вызываемая при смене страницы.
+     * * boolean `inputField` — Поле ввода номера страницы.
+     */
+    static renderNew(selector, options) {
+        const paginator = new Paginator(selector, options);
+        paginator.render();
+        return paginator;
     }
 
-
-    /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
-    #render() {
-        let html = "";
-        if (this.#inputField)
-            html += `<input class="pageNumberField" type="number" min="1" max="${this.#pagesCount}" value="${this.#currentPage}" title="Страница">`;
-        html += '<span class="pageButtons">' +
-                    '<div class="page prevPage" title="Предыдущая страница">&lt;</div> ' +
-                        '<span class="pageNumbers">' + this.#generatePageButtons() + '</span> ' +
-                    '<div class="page nextPage" title="Следующая страница">&gt;</div>'+
-                '</span>';
-        document.querySelectorAll(this.#selector).forEach(element => element.innerHTML = html);
-    }
 
     /** Обновляет код кнопок с номерами страниц. */
     #updatePageButtons() {
