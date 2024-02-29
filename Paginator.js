@@ -2,6 +2,17 @@
  * Переключатель страниц.
  */
 class Paginator {
+    static classNames = {
+        main: "pageSelector",
+        pageNumberField: "pageNumberField",
+        pageButtonsArea: "pageButtons",
+        pageNumbersArea: "pageNumbers",
+        prevPageButton: "prevPage",
+        nextPageButton: "nextPage",
+        pageButton: "page",
+        currentPage: "current",
+    };
+
     #selector = "";
     #pagesCount = 1;
     #currentPage = 1;
@@ -57,7 +68,7 @@ class Paginator {
         if (this.#rendered) {
             this.#updatePageButtons();
             if (this.#inputField)
-                document.querySelectorAll(this.#selector + ' > .pageNumberField').forEach(element => element.value = value);
+                document.querySelectorAll(this.#selector + ' > .' + Paginator.classNames.pageNumberField).forEach(element => element.value = value);
             if (this.#callback)
                 this.#callback(this.#currentPage);
         }
@@ -81,27 +92,29 @@ class Paginator {
     /** Генерирует HTML-код переключателя страниц и вставляет в контейнеры. */
     render() {
         let html = "";
+        const cn = Paginator.classNames;
         if (this.#inputField)
-            html += `<input class="pageNumberField" type="number" min="1" max="${this.#pagesCount}" value="${this.#currentPage}" title="Страница">`;
-        html += '<span class="pageButtons">' +
-                    '<div class="page prevPage" title="Предыдущая страница">&lt;</div> ' +
-                        '<span class="pageNumbers">' + this.#generatePageButtons() + '</span> ' +
-                    '<div class="page nextPage" title="Следующая страница">&gt;</div>'+
-                '</span>';
+            html += `<input class="${cn.pageNumberField}" type="number"
+                      min="1" max="${this.#pagesCount}" value="${this.#currentPage}" title="Страница">`;
+        html += `<span class="${cn.pageButtonsArea}">
+                    <div class="${cn.pageButton} ${cn.prevPageButton}" title="Предыдущая страница">&lt;</div>
+                        <span class="${cn.pageNumbersArea}"> ${this.#generatePageButtons()}</span>
+                    <div class="${cn.pageButton} ${cn.nextPageButton}" title="Следующая страница">&gt;</div>
+                </span>`;
         document.querySelectorAll(this.#selector).forEach(element => element.innerHTML = html);
 
         // Обработчики событий
         
-        document.querySelectorAll(this.#selector + ' > .pageButtons').forEach(element => element.addEventListener("click", event => {
-            if (!event.target.classList.contains("page")) return;
+        document.querySelectorAll(this.#selector + ' > .' + cn.pageButtonsArea).forEach(element => element.addEventListener("click", event => {
+            if (!event.target.classList.contains(cn.pageButton)) return;
             switch (event.target.className) {
-                case "page current":
+                case cn.pageButton + " " + cn.currentPage:
                     return;
-                case "page prevPage":
+                case cn.pageButton + " " + cn.prevPageButton:
                     if (this.currentPage > 1)
                         this.currentPage--;
                     return;
-                case "page nextPage":
+                case cn.pageButton + " " + cn.nextPageButton:
                     if (this.currentPage < this.pagesCount)
                         this.currentPage++;
                     return;
@@ -112,7 +125,7 @@ class Paginator {
         }));
 
         if (this.#inputField)
-            document.querySelectorAll(this.#selector + ' > .pageNumberField')
+            document.querySelectorAll(this.#selector + ' > .' + cn.pageNumberField)
                     .forEach(element => element.addEventListener("change", event => this.currentPage = parseInt(element.value)));
 
         this.#rendered = true;
@@ -137,7 +150,7 @@ class Paginator {
     /** Обновляет код кнопок с номерами страниц. */
     #updatePageButtons() {
         const html = this.#generatePageButtons();
-        document.querySelectorAll(this.#selector + ' .pageNumbers').forEach(element => element.innerHTML = html);
+        document.querySelectorAll(this.#selector + ' .' + Paginator.classNames.pageNumbersArea).forEach(element => element.innerHTML = html);
     }
 
     /** Генерирует кнопки с номерами страниц. */
@@ -173,6 +186,9 @@ class Paginator {
     }
 
     #getPageButton(pageNumber) {
-        return `<div class="page${pageNumber == this.#currentPage ? ' current' : ''}">${pageNumber}</div> `;
+    	let className = Paginator.classNames.pageButton;
+    	if (pageNumber == this.#currentPage)
+	    	className += " " + Paginator.classNames.currentPage;
+        return `<div class="${className}">${pageNumber}</div> `;
     }
 }
