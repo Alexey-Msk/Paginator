@@ -1,5 +1,7 @@
 /**
  * Переключатель страниц.
+ * @author Alexey B.
+ * @version 2024-03-01
  */
 class Paginator {
     static classNames = {
