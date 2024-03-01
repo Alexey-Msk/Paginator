@@ -97,9 +97,9 @@ class Paginator {
             html += `<input class="${cn.pageNumberField}" type="number"
                       min="1" max="${this.#pagesCount}" value="${this.#currentPage}" title="Страница">`;
         html += `<span class="${cn.pageButtonsArea}">
-                    <div class="${cn.pageButton} ${cn.prevPageButton}" title="Предыдущая страница">&lt;</div>
+                    <button class="${cn.pageButton} ${cn.prevPageButton}" title="Предыдущая страница">&lt;</button>
                         <span class="${cn.pageNumbersArea}"> ${this.#generatePageButtons()}</span>
-                    <div class="${cn.pageButton} ${cn.nextPageButton}" title="Следующая страница">&gt;</div>
+                    <button class="${cn.pageButton} ${cn.nextPageButton}" title="Следующая страница">&gt;</button>
                 </span>`;
         document.querySelectorAll(this.#selector).forEach(element => element.innerHTML = html);
 
@@ -189,6 +189,6 @@ class Paginator {
     	let className = Paginator.classNames.pageButton;
     	if (pageNumber == this.#currentPage)
 	    	className += " " + Paginator.classNames.currentPage;
-        return `<div class="${className}">${pageNumber}</div> `;
+        return `<button class="${className}">${pageNumber}</button> `;
     }
 }

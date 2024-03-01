@@ -3,13 +3,14 @@
 	gap: 15px;
 }
 
-.prevPage, .nextPage, .pageNumbers > div {
+.pageSelector button {
 	display: inline-block;
 	cursor: pointer;
 	background: #bbb;
 	box-sizing: border-box;
 	width: 30px;
 	height: 22px;
+	border: 1px solid black;
 	border-radius: 2px;
 	text-align: center;
 	/*padding: 3px 3px;*/
@@ -18,7 +19,7 @@
 	transition: color 0.25s;
 }
 
-.prevPage:hover, .nextPage:hover, .pageNumbers > div:hover {
+.pageSelector button:hover {
 	color: #C44C49;
 	transition: color 0.25s;
 }
