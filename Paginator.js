@@ -4,6 +4,11 @@
  * @version 2024-03-01
  */
 class Paginator {
+    /**
+     * Используемые имена CSS-классов.
+     * @type {{main: string, pageNumberField: string, pageButtonsArea: string, pageNumbersArea: string,
+     * prevPageButton: string, nextPageButton: string, pageButton: string, currentPage: string}}
+     */
     static classNames = {
         main: "pageSelector",
         pageNumberField: "pageNumberField",
