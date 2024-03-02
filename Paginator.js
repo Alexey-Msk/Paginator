@@ -1,7 +1,7 @@
 /**
  * Переключатель страниц.
  * @author Alexey B.
- * @version 2024-03-01
+ * @version 2024-03-02
  */
 class Paginator {
     /**
