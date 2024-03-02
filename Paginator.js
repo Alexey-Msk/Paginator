@@ -1,24 +1,48 @@
+class PaginatorClassNames {
+    #main = "pageSelector";
+    #pageNumberField = "pageNumberField";
+    #pageButtonsArea = "pageButtons";
+    #pageNumbersArea = "pageNumbers";
+    #prevPageButton = "prevPage";
+    #nextPageButton = "nextPage";
+    #pageButton = "page";
+    #currentPage = "current";
+    
+    get main() { return this.#main; }
+    get pageNumberField() { return this.#pageNumberField; }
+    get pageButtonsArea() { return this.#pageButtonsArea; }
+    get pageNumbersArea() { return this.#pageNumbersArea; }
+    get prevPageButton() { return this.#prevPageButton; }
+    get nextPageButton() { return this.#nextPageButton; }
+    get pageButton() { return this.#pageButton; }
+    get currentPage() { return this.#currentPage; }
+    
+    /**
+     * Задает новые имена используемых CSS-классов.
+     * @param {{main: string, pageNumberField: string, pageButtonsArea: string, pageNumbersArea: string,
+     * prevPageButton: string, nextPageButton: string, pageButton: string, currentPage: string}} newNames
+     */
+    define(newNames) {
+        const properties = ["main", "pageNumberField", "pageButtonsArea", "pageNumbersArea",
+                            "prevPageButton", "nextPageButton", "pageButton", "currentPage"];
+        
+        for (const key in properties)
+            if (key in newNames && key.length == 0)
+                throw new Error("Попытка установить пустое имя CSS-класса.");
+
+        for (const key in properties)
+            this[key] = newNames[key];
+    }
+};
+
 /**
  * Переключатель страниц.
  * @author Alexey B.
  * @version 2024-03-02
  */
 class Paginator {
-    /**
-     * Используемые имена CSS-классов.
-     * @type {{main: string, pageNumberField: string, pageButtonsArea: string, pageNumbersArea: string,
-     * prevPageButton: string, nextPageButton: string, pageButton: string, currentPage: string}}
-     */
-    static classNames = {
-        main: "pageSelector",
-        pageNumberField: "pageNumberField",
-        pageButtonsArea: "pageButtons",
-        pageNumbersArea: "pageNumbers",
-        prevPageButton: "prevPage",
-        nextPageButton: "nextPage",
-        pageButton: "page",
-        currentPage: "current",
-    };
+    /** Используемые имена CSS-классов. */
+    static classNames = new PaginatorClassNames();
 
     #selector = "";
     #pagesCount = 1;
